@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Zestora — Snacks That Give a Damn</title>
+<meta name="description" content="Zestora makes honest, nutrient-dense snacks from real Indian superfoods. No junk. No guilt. Just flavour." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+
+<style>
+/* ─── Reset ─── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;border:none;background:none;font:inherit}
+
+/* ─── Tokens ─── */
+:root{
+  --forest:   #1A2E1C;
+  --cream:    #F5EDD6;
+  --cream-dk: #EDE0C0;
+  --terra:    #C4622D;
+  --gold:     #D4A534;
+  --sage:     #7A9A72;
+  --charcoal: #2C2C2A;
+  --white:    #FDFAF5;
+
+  --ff-display: 'Fraunces', Georgia, serif;
+  --ff-body:    'Bricolage Grotesque', sans-serif;
+  --ff-mono:    'DM Mono', monospace;
+
+  --ease-out-expo: cubic-bezier(0.16,1,0.3,1);
+  --ease-in-out:   cubic-bezier(0.65,0,0.35,1);
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 32px;
+  --radius-xl: 48px;
+  --radius-pill: 999px;
+}
+
+body{
+  background: var(--cream);
+  color: var(--forest);
+  font-family: var(--ff-body);
+  font-size: 17px;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+/* ─── Custom Scrollbar ─── */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--cream)}
+::-webkit-scrollbar-thumb{background:var(--terra);border-radius:3px}
+
+/* ─── Utility ─── */
+.container{max-width:1260px;margin-inline:auto;padding-inline:clamp(20px,4vw,64px)}
+.tag{display:inline-flex;align-items:center;gap:6px;font-family:var(--ff-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:6px 14px;border-radius:var(--radius-pill);border:1.5px solid currentColor}
+.tag--forest{color:var(--forest);border-color:var(--forest)}
+.tag--terra{color:var(--terra);border-color:var(--terra)}
+.tag--cream{color:var(--cream);border-color:rgba(245,237,214,.4)}
+.tag--sage{color:var(--sage);border-color:var(--sage)}
+.dot{width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block}
+
+/* ─── Reveal animation ─── */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .8s var(--ease-out-expo), transform .8s var(--ease-out-expo)}
+.reveal.in{opacity:1;transform:translateY(0)}
+.reveal-left{opacity:0;transform:translateX(-40px);transition:opacity .8s var(--ease-out-expo), transform .8s var(--ease-out-expo)}
+.reveal-left.in{opacity:1;transform:translateX(0)}
+.reveal-right{opacity:0;transform:translateX(40px);transition:opacity .8s var(--ease-out-expo), transform .8s var(--ease-out-expo)}
+.reveal-right.in{opacity:1;transform:translateX(0)}
+.delay-1{transition-delay:.1s}
+.delay-2{transition-delay:.2s}
+.delay-3{transition-delay:.3s}
+.delay-4{transition-delay:.4s}
+.delay-5{transition-delay:.5s}
+
+/* ════════════════════════════
+   NAV
+════════════════════════════ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:18px 0;
+  transition:background .4s, backdrop-filter .4s, border-color .4s;
+  border-bottom:1px solid transparent;
+}
+nav.scrolled{
+  background:rgba(245,237,214,.88);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border-color:rgba(26,46,28,.1);
+}
+.nav-inner{
+  display:flex;align-items:center;justify-content:space-between;gap:24px;
+}
+.nav-logo{
+  font-family:var(--ff-display);font-size:24px;font-weight:900;
+  color:var(--forest);letter-spacing:-.02em;
+  display:flex;align-items:center;gap:8px;
+}
+.nav-logo span{color:var(--terra)}
+.nav-links{display:flex;align-items:center;gap:32px;list-style:none}
+.nav-links a{
+  font-size:14px;font-weight:500;color:var(--forest);
+  position:relative;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-2px;left:0;width:0;height:1.5px;
+  background:var(--terra);transition:width .3s var(--ease-out-expo);
+}
+.nav-links a:hover::after{width:100%}
+.nav-cta{
+  background:var(--forest);color:var(--cream);
+  font-size:13px;font-weight:600;font-family:var(--ff-body);
+  padding:10px 22px;border-radius:var(--radius-pill);
+  letter-spacing:.02em;
+  transition:background .25s, transform .2s;
+}
+.nav-cta:hover{background:var(--terra);transform:scale(1.03)}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;width:28px}
+.nav-hamburger span{display:block;height:2px;background:var(--forest);border-radius:2px;transition:.3s}
+
+/* ════════════════════════════
+   HERO
+════════════════════════════ */
+#hero{
+  min-height:100svh;
+  background:var(--forest);
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  overflow:hidden;
+  position:relative;
+  padding-top:80px;
+}
+.hero-left{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:80px clamp(24px,4vw,80px) 80px clamp(24px,5vw,96px);
+  position:relative;z-index:2;
+}
+.hero-eyebrow{color:var(--gold);margin-bottom:28px}
+.hero-title{
+  font-family:var(--ff-display);
+  font-size:clamp(56px,6.5vw,90px);
+  font-weight:900;
+  line-height:.95;
+  letter-spacing:-.03em;
+  color:var(--cream);
+  margin-bottom:32px;
+}
+.hero-title em{
+  font-style:italic;
+  color:var(--terra);
+}
+.hero-sub{
+  color:rgba(245,237,214,.65);
+  font-size:18px;
+  line-height:1.7;
+  max-width:420px;
+  margin-bottom:48px;
+}
+.hero-actions{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.btn-primary{
+  background:var(--terra);color:var(--cream);
+  font-weight:600;font-size:15px;
+  padding:16px 36px;border-radius:var(--radius-pill);
+  letter-spacing:.02em;
+  transition:transform .2s, background .25s;
+  position:relative;overflow:hidden;
+}
+.btn-primary::after{
+  content:'';position:absolute;inset:0;
+  background:rgba(255,255,255,.15);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .3s var(--ease-out-expo);
+}
+.btn-primary:hover::after{transform:scaleX(1)}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-ghost{
+  color:rgba(245,237,214,.7);font-size:15px;font-weight:500;
+  display:flex;align-items:center;gap:8px;
+  transition:color .2s;
+}
+.btn-ghost:hover{color:var(--cream)}
+.btn-ghost svg{transition:transform .3s var(--ease-out-expo)}
+.btn-ghost:hover svg{transform:translateX(4px)}
+
+/* Hero badge */
+.hero-badge{
+  position:absolute;bottom:48px;left:clamp(24px,4vw,80px);
+  background:rgba(245,237,214,.08);
+  border:1px solid rgba(245,237,214,.15);
+  backdrop-filter:blur(12px);
+  padding:14px 20px;border-radius:var(--radius-md);
+  display:flex;align-items:center;gap:12px;
+  color:var(--cream);
+}
+.hero-badge-icon{font-size:28px}
+.hero-badge strong{font-family:var(--ff-display);font-size:20px;font-weight:700;display:block;line-height:1}
+.hero-badge small{font-family:var(--ff-mono);font-size:10px;letter-spacing:.1em;color:rgba(245,237,214,.5);text-transform:uppercase}
+
+/* Hero right visual */
+.hero-right{
+  position:relative;overflow:hidden;
+  background:linear-gradient(135deg, #1f3820 0%, #0e1e0f 100%);
+  display:flex;align-items:center;justify-content:center;
+}
+.hero-visual-bg{
+  position:absolute;inset:0;
+  background: radial-gradient(ellipse 70% 70% at 60% 50%, rgba(196,98,45,.25) 0%, transparent 65%);
+}
+/* Decorative circles */
+.hero-circle-1{
+  position:absolute;width:380px;height:380px;border-radius:50%;
+  border:1px solid rgba(245,237,214,.06);
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  animation:spin-slow 30s linear infinite;
+}
+.hero-circle-2{
+  position:absolute;width:520px;height:520px;border-radius:50%;
+  border:1px solid rgba(245,237,214,.04);
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  animation:spin-slow 45s linear infinite reverse;
+}
+.hero-circle-3{
+  position:absolute;width:660px;height:660px;border-radius:50%;
+  border:1px solid rgba(245,237,214,.025);
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  animation:spin-slow 60s linear infinite;
+}
+@keyframes spin-slow{to{transform:translate(-50%,-50%) rotate(360deg)}}
+
+/* Product visual */
+.hero-product-stack{
+  position:relative;z-index:3;
+  display:flex;flex-direction:column;align-items:center;gap:0;
+}
+.product-can{
+  width:200px;height:300px;
+  background:linear-gradient(160deg, var(--terra) 0%, #8B3D18 100%);
+  border-radius:24px 24px 20px 20px;
+  position:relative;
+  box-shadow:0 40px 80px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.08),inset 0 1px 0 rgba(255,255,255,.15);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  animation:float-hero 5s ease-in-out infinite;
+}
+@keyframes float-hero{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-16px) rotate(1deg)}}
+.can-top{
+  position:absolute;top:-16px;left:10px;right:10px;height:32px;
+  background:linear-gradient(180deg,rgba(255,255,255,.2) 0%, rgba(255,255,255,.05) 100%);
+  border-radius:12px 12px 0 0;
+}
+.can-label{
+  background:rgba(245,237,214,.12);
+  border:1px solid rgba(245,237,214,.2);
+  border-radius:12px;padding:16px 20px;text-align:center;
+  width:160px;
+}
+.can-emoji{font-size:40px;margin-bottom:6px;display:block}
+.can-name{font-family:var(--ff-display);font-size:16px;font-weight:700;color:var(--cream);letter-spacing:-.01em}
+.can-sub{font-family:var(--ff-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(245,237,214,.55);margin-top:2px}
+.can-stripe{position:absolute;left:0;right:0;height:2px;background:rgba(255,255,255,.1)}
+.can-stripe:nth-child(3){top:30%}
+.can-stripe:nth-child(4){top:70%}
+
+/* Floating chips */
+.chip{
+  position:absolute;
+  background:rgba(245,237,214,.08);
+  border:1px solid rgba(245,237,214,.14);
+  backdrop-filter:blur(10px);
+  border-radius:var(--radius-md);
+  padding:10px 14px;
+  font-size:12px;color:var(--cream);
+  font-family:var(--ff-mono);
+  display:flex;align-items:center;gap:6px;
+  white-space:nowrap;
+}
+.chip-1{top:22%;left:8%;animation:float-chip 6s ease-in-out infinite}
+.chip-2{top:35%;right:6%;animation:float-chip 7s ease-in-out infinite .5s}
+.chip-3{bottom:28%;left:10%;animation:float-chip 5.5s ease-in-out infinite 1s}
+.chip-4{bottom:18%;right:8%;animation:float-chip 8s ease-in-out infinite .3s}
+@keyframes float-chip{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.chip-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+
+/* ════════════════════════════
+   MARQUEE
+════════════════════════════ */
+.marquee-section{
+  background:var(--terra);
+  overflow:hidden;padding:16px 0;
+  border-top:1px solid rgba(0,0,0,.1);
+  border-bottom:1px solid rgba(0,0,0,.1);
+}
+.marquee-track{
+  display:flex;gap:0;width:max-content;
+  animation:marquee 24s linear infinite;
+}
+.marquee-track:hover{animation-play-state:paused}
+@keyframes marquee{to{transform:translateX(-50%)}}
+.marquee-item{
+  display:flex;align-items:center;gap:32px;
+  padding:0 32px;
+  font-family:var(--ff-display);font-size:17px;font-weight:700;
+  font-style:italic;color:rgba(245,237,214,.9);
+  white-space:nowrap;
+  letter-spacing:-.01em;
+}
+.marquee-item::after{
+  content:'✦';font-style:normal;
+  color:rgba(245,237,214,.4);
+}
+
+/* ════════════════════════════
+   STORY
+════════════════════════════ */
+#story{padding:120px 0;background:var(--cream)}
+.story-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:clamp(40px,6vw,100px);align-items:center;
+}
+.story-label{color:var(--terra);margin-bottom:24px}
+.story-title{
+  font-family:var(--ff-display);
+  font-size:clamp(38px,4.5vw,60px);
+  font-weight:900;line-height:1.0;
+  letter-spacing:-.03em;color:var(--forest);
+  margin-bottom:32px;
+}
+.story-title em{font-style:italic;color:var(--terra)}
+.story-body{font-size:17px;line-height:1.8;color:rgba(26,46,28,.65);margin-bottom:40px}
+.story-stats{display:flex;gap:40px;flex-wrap:wrap}
+.story-stat strong{
+  font-family:var(--ff-display);font-size:42px;font-weight:900;
+  color:var(--forest);letter-spacing:-.03em;display:block;line-height:1;
+}
+.story-stat small{font-family:var(--ff-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--sage)}
+
+/* Story visual */
+.story-visual{position:relative}
+.story-blob{
+  width:100%;aspect-ratio:1;
+  background:linear-gradient(135deg, var(--forest) 0%, #2a4a2c 100%);
+  border-radius:60% 40% 55% 45% / 50% 45% 55% 50%;
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.story-blob::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 30% 30%, rgba(196,98,45,.3) 0%, transparent 60%);
+}
+.story-blob-inner{position:relative;z-index:1;text-align:center}
+.story-blob-inner .big-emoji{font-size:clamp(80px,10vw,130px);display:block;filter:drop-shadow(0 20px 40px rgba(0,0,0,.4))}
+.story-card{
+  position:absolute;
+  background:var(--cream);
+  border-radius:var(--radius-md);
+  padding:16px 20px;
+  box-shadow:0 12px 40px rgba(26,46,28,.15);
+  font-family:var(--ff-mono);
+}
+.story-card-tl{top:-24px;left:-24px;font-size:11px;color:var(--forest)}
+.story-card-tl strong{font-size:18px;display:block;color:var(--terra);font-family:var(--ff-display);font-weight:900}
+.story-card-br{bottom:-20px;right:-20px;font-size:11px;color:var(--sage);letter-spacing:.05em}
+.story-card-br span{display:block;font-size:22px;color:var(--forest);font-family:var(--ff-display);font-weight:900}
+
+/* ════════════════════════════
+   PRODUCTS
+════════════════════════════ */
+#products{padding:120px 0;background:var(--forest)}
+.section-header{text-align:center;margin-bottom:72px}
+.section-header .tag{margin-bottom:20px}
+.section-title{
+  font-family:var(--ff-display);
+  font-size:clamp(36px,4.5vw,60px);
+  font-weight:900;line-height:1.0;letter-spacing:-.03em;
+}
+.section-title--cream{color:var(--cream)}
+.section-title--forest{color:var(--forest)}
+.section-sub{margin-top:16px;font-size:17px;line-height:1.7;opacity:.6}
+.section-sub--cream{color:var(--cream)}
+.section-sub--forest{color:var(--forest)}
+
+.products-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:24px;
+}
+.product-card{
+  background:rgba(245,237,214,.05);
+  border:1px solid rgba(245,237,214,.1);
+  border-radius:var(--radius-lg);
+  overflow:hidden;
+  transition:transform .4s var(--ease-out-expo), border-color .3s, background .3s;
+  cursor:pointer;
+}
+.product-card:hover{
+  transform:translateY(-8px);
+  border-color:rgba(196,98,45,.5);
+  background:rgba(196,98,45,.06);
+}
+.product-card-visual{
+  aspect-ratio:1;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+  font-size:80px;
+}
+.product-card-visual::before{
+  content:'';position:absolute;inset:0;
+  opacity:.4;transition:opacity .4s;
+}
+.product-card:hover .product-card-visual::before{opacity:.65}
+.card-bg-1{background:radial-gradient(ellipse at center, #5a3020 0%, #2a1a10 100%)}
+.card-bg-2{background:radial-gradient(ellipse at center, #1a3a20 0%, #0d1e10 100%)}
+.card-bg-3{background:radial-gradient(ellipse at center, #3a2a10 0%, #1e1508 100%)}
+.card-bg-4{background:radial-gradient(ellipse at center, #1a2a3a 0%, #0d1520 100%)}
+.product-emoji{
+  position:relative;z-index:1;
+  font-size:72px;
+  filter:drop-shadow(0 10px 30px rgba(0,0,0,.5));
+  transition:transform .4s var(--ease-out-expo);
+}
+.product-card:hover .product-emoji{transform:scale(1.12) rotate(-5deg)}
+.product-badge{
+  position:absolute;top:16px;right:16px;z-index:2;
+  background:var(--terra);color:var(--cream);
+  font-family:var(--ff-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+  padding:5px 10px;border-radius:var(--radius-pill);
+}
+.product-info{padding:24px}
+.product-name{
+  font-family:var(--ff-display);font-size:22px;font-weight:700;
+  color:var(--cream);letter-spacing:-.02em;margin-bottom:6px;
+}
+.product-desc{font-size:13px;color:rgba(245,237,214,.5);line-height:1.6;margin-bottom:16px}
+.product-footer{
+  display:flex;align-items:center;justify-content:space-between;
+}
+.product-price{
+  font-family:var(--ff-display);font-size:22px;font-weight:900;color:var(--gold);
+  letter-spacing:-.02em;
+}
+.product-price small{font-size:12px;font-family:var(--ff-mono);color:rgba(212,165,52,.6);margin-left:2px}
+.product-tags{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.ptag{
+  font-family:var(--ff-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;
+  padding:3px 8px;border-radius:var(--radius-pill);
+  background:rgba(245,237,214,.08);color:rgba(245,237,214,.45);
+  border:1px solid rgba(245,237,214,.12);
+}
+.product-btn{
+  width:38px;height:38px;border-radius:50%;
+  background:rgba(245,237,214,.1);border:1px solid rgba(245,237,214,.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;color:var(--cream);
+  transition:background .25s, border-color .25s, transform .2s;
+}
+.product-card:hover .product-btn{
+  background:var(--terra);border-color:var(--terra);transform:scale(1.1);
+}
+
+/* ════════════════════════════
+   INGREDIENTS
+════════════════════════════ */
+#ingredients{padding:120px 0;background:var(--cream)}
+.ing-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,100px);align-items:center}
+.ing-title{
+  font-family:var(--ff-display);font-size:clamp(34px,4vw,54px);font-weight:900;
+  line-height:1.0;letter-spacing:-.03em;color:var(--forest);margin-bottom:24px;
+}
+.ing-title em{font-style:italic;color:var(--terra)}
+.ing-body{font-size:16px;line-height:1.8;color:rgba(26,46,28,.65);margin-bottom:40px}
+.ing-list{display:flex;flex-direction:column;gap:16px}
+.ing-item{
+  display:flex;align-items:center;gap:16px;
+  padding:20px;
+  background:rgba(26,46,28,.04);
+  border:1px solid rgba(26,46,28,.08);
+  border-radius:var(--radius-md);
+  transition:border-color .3s, background .3s, transform .3s var(--ease-out-expo);
+}
+.ing-item:hover{
+  border-color:var(--terra);background:rgba(196,98,45,.05);
+  transform:translateX(6px);
+}
+.ing-icon{font-size:28px;flex-shrink:0;width:48px;text-align:center}
+.ing-text strong{font-weight:600;color:var(--forest);display:block;font-size:16px}
+.ing-text span{font-size:13px;color:rgba(26,46,28,.5)}
+
+/* Ing visual */
+.ing-visual{
+  background:var(--forest);
+  border-radius:var(--radius-xl);
+  overflow:hidden;position:relative;
+  aspect-ratio:.85;
+  display:flex;align-items:center;justify-content:center;
+}
+.ing-visual-bg{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse at 40% 40%, rgba(122,154,114,.25) 0%, transparent 60%),
+             radial-gradient(ellipse at 70% 70%, rgba(196,98,45,.2) 0%, transparent 50%);
+}
+.ing-grid-inner{
+  position:relative;z-index:1;
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:40px;
+}
+.ing-cell{
+  background:rgba(245,237,214,.07);border:1px solid rgba(245,237,214,.1);
+  border-radius:var(--radius-md);padding:20px;text-align:center;
+  transition:background .3s,border-color .3s;
+}
+.ing-cell:hover{background:rgba(245,237,214,.12);border-color:rgba(245,237,214,.2)}
+.ing-cell .icon{font-size:36px;display:block;margin-bottom:8px}
+.ing-cell .name{font-family:var(--ff-display);font-size:13px;font-weight:700;color:var(--cream);letter-spacing:-.01em}
+.ing-cell .benefit{font-family:var(--ff-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--sage);margin-top:3px}
+
+/* ════════════════════════════
+   TESTIMONIALS
+════════════════════════════ */
+#reviews{padding:120px 0;background:var(--cream-dk)}
+.reviews-title{
+  font-family:var(--ff-display);font-size:clamp(34px,4vw,54px);font-weight:900;
+  line-height:1.0;letter-spacing:-.03em;color:var(--forest);
+  text-align:center;margin-bottom:64px;
+}
+.reviews-title em{font-style:italic;color:var(--terra)}
+.reviews-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:24px;
+}
+.review-card{
+  background:var(--cream);border:1px solid rgba(26,46,28,.1);
+  border-radius:var(--radius-lg);padding:32px;
+  position:relative;overflow:hidden;
+  transition:transform .4s var(--ease-out-expo),box-shadow .4s;
+}
+.review-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 24px 60px rgba(26,46,28,.12);
+}
+.review-card::before{
+  content:'"';
+  position:absolute;top:-8px;right:20px;
+  font-family:var(--ff-display);font-size:140px;font-weight:900;
+  color:rgba(196,98,45,.08);line-height:1;
+  pointer-events:none;
+}
+.stars{color:var(--gold);font-size:15px;margin-bottom:16px;letter-spacing:2px}
+.review-text{
+  font-size:16px;line-height:1.75;color:rgba(26,46,28,.75);
+  margin-bottom:24px;font-style:italic;
+  font-family:var(--ff-display);font-weight:300;
+}
+.review-author{display:flex;align-items:center;gap:12px}
+.review-avatar{
+  width:44px;height:44px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;flex-shrink:0;
+}
+.review-name{font-weight:600;color:var(--forest);font-size:14px}
+.review-handle{font-family:var(--ff-mono);font-size:11px;color:var(--sage);margin-top:1px}
+.review-tag{
+  position:absolute;top:24px;right:24px;
+  font-family:var(--ff-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+  padding:4px 10px;border-radius:var(--radius-pill);
+  background:rgba(122,154,114,.15);color:var(--sage);border:1px solid rgba(122,154,114,.3);
+}
+
+/* ════════════════════════════
+   WHY ZESTORA
+════════════════════════════ */
+#why{padding:100px 0;background:var(--forest)}
+.why-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:2px;
+  background:rgba(245,237,214,.06);
+  border-radius:var(--radius-lg);overflow:hidden;
+}
+.why-item{
+  padding:40px 32px;
+  background:var(--forest);
+  transition:background .3s;
+}
+.why-item:hover{background:rgba(196,98,45,.08)}
+.why-icon{font-size:36px;margin-bottom:20px;display:block}
+.why-title-text{
+  font-family:var(--ff-display);font-size:20px;font-weight:700;
+  color:var(--cream);letter-spacing:-.02em;margin-bottom:8px;
+}
+.why-body{font-size:14px;color:rgba(245,237,214,.45);line-height:1.7}
+
+/* ════════════════════════════
+   INSTAGRAM
+════════════════════════════ */
+#instagram{padding:100px 0;background:var(--cream)}
+.insta-top{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:48px;flex-wrap:wrap;gap:24px}
+.insta-title{
+  font-family:var(--ff-display);font-size:clamp(30px,4vw,50px);font-weight:900;
+  color:var(--forest);letter-spacing:-.03em;line-height:1;
+}
+.insta-title em{font-style:italic;color:var(--terra)}
+.insta-link{
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--ff-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--terra);border-bottom:1px solid var(--terra);padding-bottom:2px;
+  transition:opacity .2s;
+}
+.insta-link:hover{opacity:.7}
+.insta-grid{
+  display:grid;grid-template-columns:repeat(6,1fr);gap:8px;
+}
+.insta-cell{
+  aspect-ratio:1;border-radius:var(--radius-sm);overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  font-size:40px;position:relative;cursor:pointer;
+}
+.insta-cell::after{
+  content:'';position:absolute;inset:0;
+  background:rgba(26,46,28,0);transition:background .3s;
+}
+.insta-cell:hover::after{background:rgba(26,46,28,.4)}
+.insta-overlay{
+  position:absolute;inset:0;z-index:1;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .3s;
+  font-family:var(--ff-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:white;
+}
+.insta-cell:hover .insta-overlay{opacity:1}
+.ic1{background:linear-gradient(135deg,#5a3020,#2a1208)}
+.ic2{background:linear-gradient(135deg,#1a3a20,#0d1e10)}
+.ic3{background:linear-gradient(135deg,#3a2a10,#1e1508)}
+.ic4{background:linear-gradient(135deg,#1a2a3a,#0d1520)}
+.ic5{background:linear-gradient(135deg,#3a1a2a,#1e0d15)}
+.ic6{background:linear-gradient(135deg,#2a3a1a,#151e0d)}
+
+/* ════════════════════════════
+   CTA / ORDER
+════════════════════════════ */
+#order{
+  padding:120px 0;
+  background:var(--terra);
+  position:relative;overflow:hidden;
+}
+.order-bg{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse at 20% 50%, rgba(0,0,0,.15) 0%, transparent 60%),
+             radial-gradient(ellipse at 80% 50%, rgba(0,0,0,.1) 0%, transparent 50%);
+}
+.order-inner{position:relative;z-index:1;text-align:center}
+.order-tag{color:rgba(245,237,214,.7);border-color:rgba(245,237,214,.3);margin-bottom:32px}
+.order-title{
+  font-family:var(--ff-display);
+  font-size:clamp(48px,6vw,88px);
+  font-weight:900;line-height:.95;letter-spacing:-.04em;
+  color:var(--cream);margin-bottom:24px;
+}
+.order-title em{font-style:italic;color:rgba(245,237,214,.75)}
+.order-sub{
+  font-size:18px;color:rgba(245,237,214,.75);
+  max-width:500px;margin:0 auto 56px;line-height:1.7;
+}
+.order-actions{display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap}
+.btn-whatsapp{
+  background:#25D366;color:white;
+  font-weight:600;font-size:16px;
+  padding:18px 40px;border-radius:var(--radius-pill);
+  display:flex;align-items:center;gap:10px;
+  transition:transform .2s, opacity .2s;
+  letter-spacing:.02em;
+}
+.btn-whatsapp:hover{transform:translateY(-3px);opacity:.92}
+.btn-outline-cream{
+  background:transparent;color:var(--cream);
+  border:2px solid rgba(245,237,214,.4);
+  font-weight:600;font-size:16px;
+  padding:16px 36px;border-radius:var(--radius-pill);
+  transition:border-color .3s, background .3s;
+}
+.btn-outline-cream:hover{border-color:var(--cream);background:rgba(245,237,214,.1)}
+.order-note{
+  margin-top:40px;
+  font-family:var(--ff-mono);font-size:11px;letter-spacing:.08em;
+  color:rgba(245,237,214,.45);text-transform:uppercase;
+  display:flex;align-items:center;justify-content:center;gap:20px;
+  flex-wrap:wrap;
+}
+.order-note span{display:flex;align-items:center;gap:6px}
+
+/* ════════════════════════════
+   FOOTER
+════════════════════════════ */
+footer{background:var(--charcoal);padding:64px 0 32px}
+.footer-grid{
+  display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;
+  gap:48px;margin-bottom:56px;
+}
+.footer-brand{}
+.footer-logo{
+  font-family:var(--ff-display);font-size:28px;font-weight:900;
+  color:var(--cream);letter-spacing:-.03em;margin-bottom:16px;display:block;
+}
+.footer-logo span{color:var(--terra)}
+.footer-desc{font-size:14px;color:rgba(245,237,214,.4);line-height:1.75;margin-bottom:24px;max-width:240px}
+.footer-social{display:flex;gap:10px}
+.social-btn{
+  width:36px;height:36px;border-radius:50%;
+  border:1px solid rgba(245,237,214,.12);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;color:rgba(245,237,214,.4);
+  transition:border-color .25s, color .25s, background .25s;
+}
+.social-btn:hover{border-color:var(--terra);color:var(--terra);background:rgba(196,98,45,.1)}
+.footer-col h4{
+  font-family:var(--ff-mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;
+  color:rgba(245,237,214,.35);margin-bottom:16px;
+}
+.footer-col ul{list-style:none}
+.footer-col ul li{margin-bottom:10px}
+.footer-col ul li a{
+  font-size:14px;color:rgba(245,237,214,.5);
+  transition:color .2s;
+}
+.footer-col ul li a:hover{color:var(--cream)}
+.footer-bottom{
+  border-top:1px solid rgba(245,237,214,.06);padding-top:32px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;
+}
+.footer-copy{font-family:var(--ff-mono);font-size:11px;letter-spacing:.05em;color:rgba(245,237,214,.25)}
+.footer-made{font-family:var(--ff-mono);font-size:11px;color:rgba(245,237,214,.2)}
+.footer-badges{display:flex;gap:8px}
+.fbadge{
+  font-family:var(--ff-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+  padding:4px 10px;border-radius:var(--radius-pill);
+  background:rgba(245,237,214,.05);color:rgba(245,237,214,.3);
+  border:1px solid rgba(245,237,214,.08);
+}
+
+/* ════════════════════════════
+   RESPONSIVE
+════════════════════════════ */
+@media(max-width:900px){
+  #hero{grid-template-columns:1fr}
+  .hero-right{display:none}
+  .hero-left{padding:100px 24px 80px;text-align:center}
+  .hero-actions{justify-content:center}
+  .hero-badge{left:50%;transform:translateX(-50%);bottom:24px}
+  .story-grid,.ing-grid{grid-template-columns:1fr}
+  .story-visual,.ing-visual{max-width:420px;margin:0 auto}
+  .insta-grid{grid-template-columns:repeat(3,1fr)}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .footer-brand{grid-column:1/-1}
+}
+@media(max-width:600px){
+  .nav-links{display:none}
+  .nav-hamburger{display:flex}
+  .insta-grid{grid-template-columns:repeat(2,1fr)}
+  .footer-grid{grid-template-columns:1fr}
+  .footer-bottom{flex-direction:column;align-items:flex-start}
+  .why-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════ NAV ══════════ -->
+<nav id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">Zes<span>tora</span></a>
+      <ul class="nav-links">
+        <li><a href="#products">Products</a></li>
+        <li><a href="#story">Our Story</a></li>
+        <li><a href="#ingredients">Ingredients</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+      </ul>
+      <a href="#order" class="nav-cta">Order Now</a>
+      <button class="nav-hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════ HERO ══════════ -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="tag tag--cream hero-eyebrow reveal">
+      <span class="dot"></span> Real Food. Real Flavour.
+    </div>
+    <h1 class="hero-title reveal delay-1">
+      Snacks That<br><em>Give a Damn.</em>
+    </h1>
+    <p class="hero-sub reveal delay-2">
+      We make nutrient-dense, ridiculously tasty snacks from ancient Indian superfoods — zero preservatives, zero compromise. Your body will thank you.
+    </p>
+    <div class="hero-actions reveal delay-3">
+      <a href="#products" class="btn-primary">Shop All Products →</a>
+      <a href="#story" class="btn-ghost">
+        Our Story
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+
+    <div class="hero-badge reveal delay-4">
+      <span class="hero-badge-icon">🏆</span>
+      <div>
+        <strong>50,000+</strong>
+        <small>happy snackers across India</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right panel -->
+  <div class="hero-right">
+    <div class="hero-visual-bg"></div>
+    <div class="hero-circle-1"></div>
+    <div class="hero-circle-2"></div>
+    <div class="hero-circle-3"></div>
+
+    <!-- Floating chips -->
+    <div class="chip chip-1">
+      <span class="chip-dot" style="background:#4ade80"></span> No Preservatives
+    </div>
+    <div class="chip chip-2">
+      <span class="chip-dot" style="background:#D4A534"></span> High Protein
+    </div>
+    <div class="chip chip-3">
+      <span class="chip-dot" style="background:#60a5fa"></span> Gluten Free
+    </div>
+    <div class="chip chip-4">
+      <span class="chip-dot" style="background:#f472b6"></span> Made in India
+    </div>
+
+    <!-- Product can -->
+    <div class="hero-product-stack">
+      <div class="product-can">
+        <div class="can-top"></div>
+        <div class="can-stripe"></div>
+        <div class="can-stripe"></div>
+        <div class="can-label">
+          <span class="can-emoji">🥜</span>
+          <div class="can-name">Zestora</div>
+          <div class="can-sub">Peanut Blast</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ MARQUEE ══════════ -->
+<div class="marquee-section">
+  <div class="marquee-track" id="marquee">
+    <div class="marquee-item">Real Ingredients</div>
+    <div class="marquee-item">No Preservatives</div>
+    <div class="marquee-item">Made in India</div>
+    <div class="marquee-item">High Protein</div>
+    <div class="marquee-item">Vegan Friendly</div>
+    <div class="marquee-item">Zero Guilt</div>
+    <div class="marquee-item">Ancient Superfoods</div>
+    <div class="marquee-item">Real Ingredients</div>
+    <div class="marquee-item">No Preservatives</div>
+    <div class="marquee-item">Made in India</div>
+    <div class="marquee-item">High Protein</div>
+    <div class="marquee-item">Vegan Friendly</div>
+    <div class="marquee-item">Zero Guilt</div>
+    <div class="marquee-item">Ancient Superfoods</div>
+  </div>
+</div>
+
+<!-- ══════════ STORY ══════════ -->
+<section id="story">
+  <div class="container">
+    <div class="story-grid">
+      <div>
+        <div class="tag tag--terra reveal">Our Story</div>
+        <h2 class="story-title reveal delay-1">
+          Born in a kitchen.<br><em>Built for a generation</em><br>that reads labels.
+        </h2>
+        <p class="story-body reveal delay-2">
+          In 2022, our founder Priya Menon walked the snack aisle of a Bengaluru supermarket and read every label. Palm oil. Artificial colour 102. Maltodextrin. Flavour enhancer 621. She walked out empty-handed and went home to make her own.
+        </p>
+        <p class="story-body reveal delay-3" style="margin-top:-16px">
+          Zestora started from that kitchen. Today we work directly with 12 farm partners across Karnataka, Rajasthan, and Gujarat — sourcing ingredients you can actually spell.
+        </p>
+        <div class="story-stats reveal delay-4">
+          <div class="story-stat">
+            <strong>12</strong>
+            <small>Farm Partners</small>
+          </div>
+          <div class="story-stat">
+            <strong>50K+</strong>
+            <small>Happy Snackers</small>
+          </div>
+          <div class="story-stat">
+            <strong>0</strong>
+            <small>Preservatives</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-visual reveal-right delay-2">
+        <div class="story-blob">
+          <div class="story-blob-inner">
+            <span class="big-emoji">🌾</span>
+          </div>
+        </div>
+        <div class="story-card story-card-tl">
+          <small>Est.</small>
+          <strong>2022</strong>
+        </div>
+        <div class="story-card story-card-br">
+          <span style="font-size:10px;text-transform:uppercase;letter-spacing:.1em">Bengaluru, IN</span>
+          <span>🌿 100% Natural</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ PRODUCTS ══════════ -->
+<section id="products">
+  <div class="container">
+    <div class="section-header">
+      <div class="tag tag--cream reveal">Our Products</div>
+      <h2 class="section-title section-title--cream reveal delay-1">
+        Built to Snack On
+      </h2>
+      <p class="section-sub section-sub--cream reveal delay-2">
+        Four obsessively crafted flavours. Every bite engineered for flavour and nutrition.
+      </p>
+    </div>
+
+    <div class="products-grid">
+
+      <div class="product-card reveal delay-1">
+        <div class="product-card-visual card-bg-1">
+          <div class="product-badge">Bestseller</div>
+          <span class="product-emoji">🥜</span>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Peanut Blast</div>
+          <div class="product-desc">Cold-pressed Rajasthani peanuts, Himalayan salt, hint of jaggery. Crunch that actually means something.</div>
+          <div class="product-tags">
+            <span class="ptag">28g Protein</span>
+            <span class="ptag">Vegan</span>
+            <span class="ptag">Gluten-Free</span>
+          </div>
+          <div class="product-footer" style="margin-top:16px">
+            <div>
+              <div class="product-price">₹149 <small>/100g</small></div>
+            </div>
+            <button class="product-btn" title="Add to cart">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card reveal delay-2">
+        <div class="product-card-visual card-bg-2">
+          <div class="product-badge" style="background:#7A9A72">New</div>
+          <span class="product-emoji">🌿</span>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Moringa Munch</div>
+          <div class="product-desc">Karnataka moringa leaves, roasted makhana, black pepper. Earthy, smoky, and dangerously addictive.</div>
+          <div class="product-tags">
+            <span class="ptag">Iron-Rich</span>
+            <span class="ptag">Low Calorie</span>
+            <span class="ptag">Superfood</span>
+          </div>
+          <div class="product-footer" style="margin-top:16px">
+            <div>
+              <div class="product-price">₹179 <small>/80g</small></div>
+            </div>
+            <button class="product-btn" title="Add to cart">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card reveal delay-3">
+        <div class="product-card-visual card-bg-3">
+          <span class="product-emoji">🌶️</span>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Chilli Chikki</div>
+          <div class="product-desc">Traditional til chikki reimagined with Nagaland ghost pepper and raw honey. Sweet meets heat.</div>
+          <div class="product-tags">
+            <span class="ptag">Antioxidants</span>
+            <span class="ptag">No Refined Sugar</span>
+          </div>
+          <div class="product-footer" style="margin-top:16px">
+            <div>
+              <div class="product-price">₹129 <small>/120g</small></div>
+            </div>
+            <button class="product-btn" title="Add to cart">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card reveal delay-4">
+        <div class="product-card-visual card-bg-4">
+          <div class="product-badge" style="background:#1a4a6b">Limited</div>
+          <span class="product-emoji">🫐</span>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Berry Bark</div>
+          <div class="product-desc">Dark chocolate bark with amla, chia, and wild Himalayan berries. For days when you deserve more.</div>
+          <div class="product-tags">
+            <span class="ptag">Vitamin C</span>
+            <span class="ptag">Omega-3</span>
+            <span class="ptag">Dark Choc</span>
+          </div>
+          <div class="product-footer" style="margin-top:16px">
+            <div>
+              <div class="product-price">₹219 <small>/90g</small></div>
+            </div>
+            <button class="product-btn" title="Add to cart">+</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ INGREDIENTS ══════════ -->
+<section id="ingredients">
+  <div class="container">
+    <div class="ing-grid">
+
+      <div class="ing-visual reveal-left">
+        <div class="ing-visual-bg"></div>
+        <div class="ing-grid-inner">
+          <div class="ing-cell"><span class="icon">🌾</span><div class="name">Amaranth</div><div class="benefit">Complete Protein</div></div>
+          <div class="ing-cell"><span class="icon">🥥</span><div class="name">Coconut</div><div class="benefit">MCT Fats</div></div>
+          <div class="ing-cell"><span class="icon">🫚</span><div class="name">Cold-Press Oil</div><div class="benefit">Omega-9</div></div>
+          <div class="ing-cell"><span class="icon">🍯</span><div class="name">Raw Honey</div><div class="benefit">Antioxidants</div></div>
+          <div class="ing-cell"><span class="icon">🌿</span><div class="name">Moringa</div><div class="benefit">92 Nutrients</div></div>
+          <div class="ing-cell"><span class="icon">🫙</span><div class="name">Himalayan Salt</div><div class="benefit">84 Minerals</div></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="tag tag--terra reveal">What's Inside</div>
+        <h2 class="ing-title reveal delay-1">
+          We name every <em>single ingredient.</em> Because we can.
+        </h2>
+        <p class="ing-body reveal delay-2">
+          Most snack brands bury their ingredient list in 8pt font. We print ours on the front. Every item sourced directly from named farms, every process documented.
+        </p>
+        <div class="ing-list">
+          <div class="ing-item reveal delay-2">
+            <div class="ing-icon">🚜</div>
+            <div class="ing-text">
+              <strong>Direct Farm Sourcing</strong>
+              <span>12 partner farms across Karnataka, Rajasthan & Gujarat</span>
+            </div>
+          </div>
+          <div class="ing-item reveal delay-3">
+            <div class="ing-icon">🔬</div>
+            <div class="ing-text">
+              <strong>Lab Tested, Every Batch</strong>
+              <span>Third-party FSSAI-certified lab testing before every dispatch</span>
+            </div>
+          </div>
+          <div class="ing-item reveal delay-4">
+            <div class="ing-icon">♻️</div>
+            <div class="ing-text">
+              <strong>Compostable Packaging</strong>
+              <span>Our pouches break down in 180 days. Planet approved.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ WHY ZESTORA ══════════ -->
+<section id="why">
+  <div class="container">
+    <div class="section-header" style="margin-bottom:48px">
+      <div class="tag tag--cream reveal">Why Us</div>
+      <h2 class="section-title section-title--cream reveal delay-1">
+        The Zestora Difference
+      </h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-item reveal delay-1">
+        <span class="why-icon">🌱</span>
+        <div class="why-title-text">100% Natural</div>
+        <p class="why-body">If it sounds like a chemistry experiment, it's not in our snacks. Full stop.</p>
+      </div>
+      <div class="why-item reveal delay-2">
+        <span class="why-icon">⚡</span>
+        <div class="why-title-text">High Performance</div>
+        <p class="why-body">Protein-dense, fibre-rich, and slow-release energy. Designed for real days.</p>
+      </div>
+      <div class="why-item reveal delay-3">
+        <span class="why-icon">🤝</span>
+        <div class="why-title-text">Farmer First</div>
+        <p class="why-body">We pay 30% above MSP to every partner farm. Ethical sourcing isn't optional.</p>
+      </div>
+      <div class="why-item reveal delay-4">
+        <span class="why-icon">📦</span>
+        <div class="why-title-text">Delivered Fresh</div>
+        <p class="why-body">Made in small batches weekly. Ships within 48 hours of packing. Always fresh.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ REVIEWS ══════════ -->
+<section id="reviews">
+  <div class="container">
+    <h2 class="reviews-title reveal">
+      They said it better<br><em>than we ever could.</em>
+    </h2>
+    <div class="reviews-grid">
+
+      <div class="review-card reveal delay-1">
+        <div class="review-tag">Verified Purchase</div>
+        <div class="stars">★★★★★</div>
+        <p class="review-text">"Finally a snack brand that doesn't treat me like I can't read a label. The Peanut Blast is the only thing that makes 3pm bearable."</p>
+        <div class="review-author">
+          <div class="review-avatar" style="background:#fef9c3">🧑‍💻</div>
+          <div>
+            <div class="review-name">Arjun S.</div>
+            <div class="review-handle">@arjun.codes · Bengaluru</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card reveal delay-2">
+        <div class="review-tag">Instagram DM</div>
+        <div class="stars">★★★★★</div>
+        <p class="review-text">"Ordered once as a trial. Now I'm on the monthly subscription. My trainer actually approved it — that says everything."</p>
+        <div class="review-author">
+          <div class="review-avatar" style="background:#fce7f3">👩‍⚕️</div>
+          <div>
+            <div class="review-name">Nandita R.</div>
+            <div class="review-handle">@nandita.fit · Mumbai</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card reveal delay-3">
+        <div class="review-tag">Google Review</div>
+        <div class="stars">★★★★★</div>
+        <p class="review-text">"Berry Bark is the one snack I hide from my family. The dark chocolate + amla combination is genuinely unlike anything else available in India."</p>
+        <div class="review-author">
+          <div class="review-avatar" style="background:#ecfdf5">👨‍🍳</div>
+          <div>
+            <div class="review-name">Kiran T.</div>
+            <div class="review-handle">@kiran.eats · Hyderabad</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ INSTAGRAM ══════════ -->
+<section id="instagram">
+  <div class="container">
+    <div class="insta-top">
+      <h2 class="insta-title reveal">
+        Tag us <em>everywhere.</em><br>We're watching. 👀
+      </h2>
+      <a href="#" class="insta-link reveal delay-2">
+        @zestora.in ↗
+      </a>
+    </div>
+    <div class="insta-grid">
+      <div class="insta-cell ic1"><span>🥜</span><div class="insta-overlay">View Post</div></div>
+      <div class="insta-cell ic2"><span>🌿</span><div class="insta-overlay">View Post</div></div>
+      <div class="insta-cell ic3"><span>🌾</span><div class="insta-overlay">View Post</div></div>
+      <div class="insta-cell ic4"><span>🫐</span><div class="insta-overlay">View Post</div></div>
+      <div class="insta-cell ic5"><span>🌶️</span><div class="insta-overlay">View Post</div></div>
+      <div class="insta-cell ic6"><span>🍯</span><div class="insta-overlay">View Post</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ ORDER CTA ══════════ -->
+<section id="order">
+  <div class="order-bg"></div>
+  <div class="container">
+    <div class="order-inner">
+      <div class="tag order-tag reveal">Ready to Snack Right?</div>
+      <h2 class="order-title reveal delay-1">
+        Stop reading.<br><em>Start eating.</em>
+      </h2>
+      <p class="order-sub reveal delay-2">
+        Order directly on WhatsApp for personalised recommendations, combo deals, and same-day dispatch from Bengaluru.
+      </p>
+      <div class="order-actions reveal delay-3">
+        <a href="https://wa.me/919876543210?text=Hi%20Zestora!%20I%20want%20to%20order%20some%20snacks%20🌿" class="btn-whatsapp" target="_blank">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Order on WhatsApp
+        </a>
+        <a href="#products" class="btn-outline-cream">Browse Products</a>
+      </div>
+      <div class="order-note reveal delay-4">
+        <span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 0a6 6 0 100 12A6 6 0 006 0zm2.78 4.78l-3.5 3.5a.75.75 0 01-1.06 0l-1.5-1.5a.75.75 0 011.06-1.06L5 6.69l2.72-2.72a.75.75 0 011.06 1.06v.01z"/></svg> Free delivery above ₹499</span>
+        <span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 0a6 6 0 100 12A6 6 0 006 0zm2.78 4.78l-3.5 3.5a.75.75 0 01-1.06 0l-1.5-1.5a.75.75 0 011.06-1.06L5 6.69l2.72-2.72a.75.75 0 011.06 1.06v.01z"/></svg> Ships within 48 hours</span>
+        <span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 0a6 6 0 100 12A6 6 0 006 0zm2.78 4.78l-3.5 3.5a.75.75 0 01-1.06 0l-1.5-1.5a.75.75 0 011.06-1.06L5 6.69l2.72-2.72a.75.75 0 011.06 1.06v.01z"/></svg> 100% money-back guarantee</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="footer-logo">Zes<span>tora</span></a>
+        <p class="footer-desc">Honest snacks from real Indian superfoods. Zero preservatives. Zero compromise. Made with love in Bengaluru.</p>
+        <div class="footer-social">
+          <a href="#" class="social-btn" title="Instagram">📷</a>
+          <a href="#" class="social-btn" title="Twitter">🐦</a>
+          <a href="#" class="social-btn" title="LinkedIn">💼</a>
+          <a href="#" class="social-btn" title="YouTube">▶</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="#">Peanut Blast</a></li>
+          <li><a href="#">Moringa Munch</a></li>
+          <li><a href="#">Chilli Chikki</a></li>
+          <li><a href="#">Berry Bark</a></li>
+          <li><a href="#">Bundles & Gift Sets</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">Our Story</a></li>
+          <li><a href="#">Farm Partners</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+          <li><a href="#">Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Help</h4>
+        <ul>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Shipping Policy</a></li>
+          <li><a href="#">Returns</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Wholesale</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 Zestora Foods Pvt. Ltd. · Bengaluru, India</div>
+      <div class="footer-badges">
+        <span class="fbadge">FSSAI Licensed</span>
+        <span class="fbadge">ISO 22000</span>
+        <span class="fbadge">100% Natural</span>
+      </div>
+      <div class="footer-made">Made with 🌿 in India</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════ SCRIPTS ══════════ -->
+<script>
+/* ─── Navbar scroll ─── */
+const navbar = document.getElementById('navbar')
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 60)
+}, {passive: true})
+
+/* ─── Reveal on scroll ─── */
+const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right')
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in')
+      observer.unobserve(e.target)
+    }
+  })
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' })
+
+revealEls.forEach(el => observer.observe(el))
+
+/* ─── Hero elements revealed immediately ─── */
+setTimeout(() => {
+  document.querySelectorAll('#hero .reveal, #hero .reveal-left, #hero .reveal-right').forEach(el => {
+    el.classList.add('in')
+  })
+}, 100)
+
+/* ─── Product add to cart feedback ─── */
+document.querySelectorAll('.product-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const original = this.textContent
+    this.textContent = '✓'
+    this.style.background = '#7A9A72'
+    this.style.borderColor = '#7A9A72'
+    setTimeout(() => {
+      this.textContent = original
+      this.style.background = ''
+      this.style.borderColor = ''
+    }, 1400)
+  })
+})
+
+/* ─── Smooth scroll for anchor links ─── */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', function(e) {
+    const id = this.getAttribute('href')
+    if (id === '#') return
+    const target = document.querySelector(id)
+    if (target) {
+      e.preventDefault()
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  })
+})
+
+/* ─── Nav active section highlight ─── */
+const sections = ['story','products','ingredients','reviews']
+const navLinks = document.querySelectorAll('.nav-links a')
+
+const sectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(link => {
+        link.style.color = link.getAttribute('href') === '#' + e.target.id
+          ? 'var(--terra)' : ''
+      })
+    }
+  })
+}, {threshold: 0.4})
+
+sections.forEach(id => {
+  const el = document.getElementById(id)
+  if (el) sectionObserver.observe(el)
+})
+
+/* ─── Parallax for hero ─── */
+window.addEventListener('scroll', () => {
+  const y = window.scrollY
+  const hero = document.getElementById('hero')
+  if (y < window.innerHeight) {
+    const heroLeft = hero.querySelector('.hero-left')
+    if (heroLeft) heroLeft.style.transform = `translateY(${y * 0.15}px)`
+  }
+}, {passive: true})
+</script>
+</body>
+</html>
